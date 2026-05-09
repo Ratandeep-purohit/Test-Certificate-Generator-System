@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work Completion Letter Generator</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="completion.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar / Form Area -->
+        <aside class="sidebar no-print">
+            <div class="sidebar-header">
+                <div class="header-top">
+                    <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Dashboard</a>
+                </div>
+                <div class="sidebar-header-row">
+                    <h2><i class="fa-solid fa-file-signature"></i> Generator</h2>
+                    <div class="actions">
+                        <button id="btn-reset" class="btn btn-outline" title="Reset Form"><i class="fa-solid fa-rotate-right"></i></button>
+                        <button id="btn-download" class="btn btn-primary" title="Download PDF"><i class="fa-solid fa-download"></i> PDF</button>
+                    </div>
+                </div>
+            </div>
+
+            <form id="completion-form" class="form-container">
+                <!-- Project Details -->
+                <div class="form-section">
+                    <h3>Project Details</h3>
+                    <div class="form-group">
+                        <label for="f-date">Date <span class="required">*</span></label>
+                        <input type="date" id="f-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="f-project-name">Project Name <span class="required">*</span></label>
+                        <input type="text" id="f-project-name" placeholder="e.g. Noida Metro Phase 2" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="f-site-address">Site Address</label>
+                        <textarea id="f-site-address" rows="2" placeholder="Enter site address..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="f-project-details">Project Details</label>
+                        <textarea id="f-project-details" rows="2" placeholder="Brief details of work done..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Client Details -->
+                <div class="form-section">
+                    <h3>Client Details</h3>
+                    <div class="form-group">
+                        <label for="f-client-name">Client Name <span class="required">*</span></label>
+                        <input type="text" id="f-client-name" placeholder="e.g. John Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="f-mobile-no">Mobile No.</label>
+                        <input type="text" id="f-mobile-no" placeholder="e.g. +91 9876543210">
+                    </div>
+                </div>
+
+                <!-- Signatory Details -->
+                <div class="form-section">
+                    <h3>Glassentials Signatory</h3>
+                    <div class="form-group">
+                        <label for="f-auth-person">Authorized Person Name <span class="required">*</span></label>
+                        <input type="text" id="f-auth-person" placeholder="e.g. Jane Smith" required>
+                    </div>
+                </div>
+            </form>
+        </aside>
+
+        <!-- Main Preview Area -->
+        <main class="preview-area">
+            <div class="preview-toolbar no-print">
+                <div class="zoom-controls">
+                    <button id="btn-zoom-out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+                    <span id="zoom-level">100%</span>
+                    <button id="btn-zoom-in"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+                </div>
+            </div>
+            
+            <div class="completion-wrapper">
+                <div id="completion-preview" class="completion-page">
+                    <!-- Header -->
+                    <div class="completion-header">
+                        <div class="header-logo-col">
+                            <img src="" alt="Glassentials Logo" id="preview-logo">
+                        </div>
+                        <div class="header-logo2-col">
+                            <img src="" alt="Logo 2" id="preview-logo2">
+                        </div>
+                    </div>
+
+                    <!-- Title -->
+                    <div class="completion-title">
+                        WORK COMPLETION & HANDOVER FORM
+                    </div>
+
+                    <div class="date-row">
+                        <span>Date: <span id="p-date" class="bold-value">---</span></span>
+                    </div>
+
+                    <!-- Details Table -->
+                    <table class="details-table">
+                        <tr>
+                            <td class="label-col">Project Name</td>
+                            <td class="value-col">: <span id="p-project-name">---</span></td>
+                        </tr>
+                        <tr>
+                            <td class="label-col">Site Address</td>
+                            <td class="value-col">: <span id="p-site-address">---</span></td>
+                        </tr>
+                        <tr>
+                            <td class="label-col">Project Details</td>
+                            <td class="value-col">: <span id="p-project-details">---</span></td>
+                        </tr>
+                        <tr>
+                            <td class="label-col">Client Name</td>
+                            <td class="value-col">: <span id="p-client-name">---</span></td>
+                        </tr>
+                        <tr>
+                            <td class="label-col">Mobile No.</td>
+                            <td class="value-col">: <span id="p-mobile-no">---</span></td>
+                        </tr>
+                    </table>
+
+                    <!-- Declaration section -->
+                    <div class="declaration-section">
+                        <div class="declaration-title">Client Declaration</div>
+                        <p class="declaration-intro">I/We have inspected the completed work carried out by Glassentials and confirm that:</p>
+                        <ul class="declaration-list">
+                            <li>Work has been completed as per requirement and approved design.</li>
+                            <li>All glass, mirror and hardware fittings are properly installed and aligned.</li>
+                            <li>No damage, crack, scratch or defect found at the time of handover.</li>
+                            <li>No pending work remains from the company side.</li>
+                            <li>I/We accept the work in satisfactory condition.</li>
+                            <li>Any damage occurring after handover due to usage, impact, cleaning, civil work, structural movement, or third-party work will not be the responsibility of Glassentials.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Signatures -->
+                    <div class="signatures-section">
+                        <div class="sign-box">
+                            <div class="sign-line-area">
+                                <span>Client Signature</span>
+                            </div>
+                            <div class="sign-date">Date: ____ / ____ / ______</div>
+                        </div>
+                        <div class="sign-box">
+                            <div class="sign-header">For Glassentials</div>
+                            <div class="sign-line-area has-image">
+                                <img id="p-signature-img" src="" style="display: none;" class="auth-signature-img">
+                            </div>
+                            <div class="auth-person">
+                                Authorized Person: <span id="p-auth-person" class="bold-value">---</span>
+                            </div>
+                            <div class="sign-date">Date: <span id="p-date-auth" class="bold-value">---</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="completion-footer">
+                        <div class="feedback-request">
+                            <div class="feedback-text">
+                                <span class="feedback-title">Satisfied with our work?</span>
+                                <span class="feedback-subtitle">We'd appreciate your valuable review!</span>
+                            </div>
+                            <img id="p-qr-img" src="" alt="Google Review QR Code" class="qr-code-img">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="img_data.js"></script>
+    <script src="completion.js"></script>
+</body>
+</html>

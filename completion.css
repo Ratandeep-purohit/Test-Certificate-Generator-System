@@ -1,0 +1,284 @@
+/* =============================================
+   WORK COMPLETION LETTER MODULE
+   ============================================= */
+
+:root {
+    --primary: #1e293b;
+    --accent: #2563eb;
+    --secondary: #64748b;
+    --border: #d1d5db;
+    --bg-light: #f8fafc;
+    --text-main: #0f172a;
+    --text-muted: #475569;
+}
+
+.completion-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    width: 100%;
+    overflow: visible;
+}
+
+/* Portrait A4 Dimensions */
+.completion-page {
+    width: 210mm;
+    height: 297mm;
+    max-height: 297mm;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    position: relative;
+    padding: 10mm 15mm;
+    color: var(--text-main);
+    font-family: 'Inter', sans-serif;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header with Logos */
+.completion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5mm;
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 15px;
+}
+
+.header-logo-col img, .header-logo2-col img {
+    height: 110px;
+    width: auto;
+    max-width: 250px;
+    object-fit: contain;
+}
+
+/* Title */
+.completion-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--primary);
+    text-align: center;
+    margin: 2mm 0 5mm 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-decoration: underline;
+    text-underline-offset: 6px;
+}
+
+.date-row {
+    text-align: right;
+    margin-bottom: 5mm;
+    font-size: 1rem;
+    color: var(--text-main);
+}
+
+.bold-value {
+    font-weight: 600;
+    color: var(--primary);
+}
+
+/* Details Table */
+.details-table {
+    width: 100%;
+    margin-bottom: 5mm;
+    border-collapse: separate;
+    border-spacing: 0 4px;
+}
+
+.details-table td {
+    vertical-align: top;
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.label-col {
+    width: 35%;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.value-col {
+    width: 65%;
+    color: var(--text-main);
+}
+
+/* Declaration Section */
+.declaration-section {
+    background-color: var(--bg-light);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 15px;
+    margin-bottom: 8mm;
+}
+
+.declaration-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 10px;
+    text-decoration: underline;
+}
+
+.declaration-intro {
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+.declaration-list {
+    margin: 0;
+    padding-left: 20px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+}
+
+.declaration-list li {
+    margin-bottom: 5px;
+    text-align: justify;
+}
+
+/* Signatures */
+.signatures-section {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    margin-bottom: 5mm;
+    page-break-inside: avoid;
+}
+
+.sign-box {
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+}
+
+.sign-header {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--primary);
+    margin-bottom: 20px;
+}
+
+.sign-line-area {
+    height: 40px;
+    border-bottom: 1px solid var(--primary);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: flex-end;
+    position: relative;
+}
+
+.sign-line-area span {
+    position: absolute;
+    bottom: -20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.auth-signature-img {
+    max-height: 50px;
+    object-fit: contain;
+    position: absolute;
+    bottom: 5px;
+}
+
+.auth-person {
+    margin-top: 15px;
+    font-size: 0.9rem;
+}
+
+.sign-date {
+    margin-top: 5px;
+    font-size: 0.9rem;
+}
+
+/* Footer */
+.completion-footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    border-top: 1px solid var(--border);
+    padding-top: 5px;
+    margin-top: 5px;
+    page-break-inside: avoid;
+}
+
+.feedback-request {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.feedback-text {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    font-family: 'Outfit', sans-serif;
+}
+
+.feedback-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--primary);
+}
+
+.feedback-subtitle {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.qr-code-img {
+    height: 70px;
+    width: 70px;
+    object-fit: contain;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    padding: 2px;
+}
+
+/* =============================================
+   PRINT OVERRIDES
+   ============================================= */
+@media print {
+    html, body {
+        margin: 0 !important;
+        padding: 0 !important;
+        background: white;
+    }
+    
+    .sidebar,
+    .preview-toolbar {
+        display: none !important;
+    }
+
+    .app-container {
+        display: block;
+    }
+
+    .preview-area {
+        padding: 0;
+        margin: 0;
+    }
+
+    .completion-wrapper {
+        padding: 0;
+        margin: 0;
+    }
+
+    .completion-page {
+        box-shadow: none;
+        width: 210mm !important;
+        height: 290mm !important; /* Strictly less than A4 height */
+        max-height: 290mm !important;
+        overflow: hidden !important; 
+        padding: 5mm 10mm !important; 
+        margin: 0 !important;
+        border: none !important;
+    }
+}

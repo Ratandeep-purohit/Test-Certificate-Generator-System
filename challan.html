@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery Challan Generator | Glassentials</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="challan.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar / Form Area -->
+        <aside class="sidebar no-print">
+            <div class="sidebar-header">
+                <div class="header-top">
+                    <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Dashboard</a>
+                </div>
+                <div class="sidebar-header-row">
+                    <h2><i class="fa-solid fa-truck-ramp-box"></i> Challan Generator</h2>
+                    <div class="actions">
+                        <button id="btn-reset" class="btn btn-outline" title="Reset Form"><i class="fa-solid fa-rotate-right"></i></button>
+                        <button id="btn-download" class="btn btn-primary" title="Download PDF"><i class="fa-solid fa-download"></i> PDF</button>
+                    </div>
+                </div>
+            </div>
+
+            <form id="challan-form" class="form-container">
+                <!-- Basic Info -->
+                <div class="form-section">
+                    <h3>General Information</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="f-challan-no">Challan No</label>
+                            <input type="text" id="f-challan-no" placeholder="e.g. DC/24-25/001">
+                        </div>
+                        <div class="form-group">
+                            <label for="f-date">Date</label>
+                            <input type="date" id="f-date">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="f-project">Project Name</label>
+                        <input type="text" id="f-project" placeholder="e.g. Noida Metro Phase 2">
+                    </div>
+                    <div class="form-group">
+                        <label for="f-vehicle">Vehicle Number</label>
+                        <input type="text" id="f-vehicle" placeholder="e.g. UP-16-AT-1234">
+                    </div>
+                </div>
+
+                <!-- Parties Info -->
+                <div class="form-section">
+                    <h3>Party Details</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="f-delivered-by">Delivered By (Details)</label>
+                            <textarea id="f-delivered-by" rows="3" placeholder="Company Name, Address, GSTIN"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="f-delivered-to">Delivered To (Details)</label>
+                            <textarea id="f-delivered-to" rows="3" placeholder="Customer Name, Address, GSTIN"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="f-shipped-from">Shipped From (Address)</label>
+                            <textarea id="f-shipped-from" rows="3" placeholder="Warehouse/Plant Address"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="f-shipped-to">Shipped To (Address)</label>
+                            <textarea id="f-shipped-to" rows="3" placeholder="Site/Delivery Address"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Goods Items -->
+                <div class="form-section">
+                    <div class="section-header">
+                        <h3>Goods Items</h3>
+                        <button type="button" id="btn-add-item" class="btn btn-sm btn-outline"><i class="fa-solid fa-plus"></i> Add Item</button>
+                    </div>
+                    <div id="items-container" class="items-editor">
+                        <!-- Dynamic rows will be added here -->
+                    </div>
+                </div>
+
+                <!-- Footer Info -->
+                <div class="form-section">
+                    <h3>Signatory Status</h3>
+                    <p style="font-size: 0.85rem; color: var(--secondary-color);">Authorised Signatory (Permanent)</p>
+                </div>
+            </form>
+        </aside>
+
+        <!-- Main Preview Area -->
+        <main class="preview-area">
+            <div class="preview-toolbar no-print">
+                <div class="zoom-controls">
+                    <button id="btn-zoom-out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+                    <span id="zoom-level">100%</span>
+                    <button id="btn-zoom-in"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+                </div>
+            </div>
+            
+            <div class="challan-wrapper">
+                <div id="challan-preview" class="challan-page">
+                    <!-- Header: Logo Left | Company Center | Logo2 Right -->
+                    <div class="challan-header">
+                        <div class="header-top-row">
+                            <div class="header-logo-col">
+                                <img src="logo.png" alt="Ribgyov Glasso Logo" id="preview-logo">
+                            </div>
+                            <div class="header-company-col">
+                                <div class="hc-name">Ribgyov Glasso</div>
+                                <div class="hc-gstin">GSTIN: 24ALFPM5976M2ZG</div>
+                                <div class="hc-tagline">Manufacturers &amp; Suppliers of Architectural Glass</div>
+                            </div>
+                            <div class="header-logo2-col">
+                                <img src="logo2.png" alt="Logo 2" id="preview-logo2">
+                            </div>
+                        </div>
+                        <div class="challan-title-bar">
+                            <span>DELIVERY CHALLAN</span>
+                            <div class="title-bar-meta">
+                                <span><strong>Challan No:</strong> <span id="p-challan-no">---</span></span>
+                                <span><strong>Date:</strong> <span id="p-date">---</span></span>
+                                <span><strong>Vehicle:</strong> <span id="p-vehicle">---</span></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project Info Row -->
+                    <div class="project-row">
+                        <span><strong>Project:</strong> <span id="p-project">---</span></span>
+                    </div>
+
+                    <!-- Addresses -->
+                    <div class="address-grid">
+                        <div class="address-box">
+                            <div class="address-label">DELIVERED BY</div>
+                            <div class="address-content" id="p-delivered-by"></div>
+                        </div>
+                        <div class="address-box">
+                            <div class="address-label">DELIVERED TO</div>
+                            <div class="address-content" id="p-delivered-to"></div>
+                        </div>
+                        <div class="address-box">
+                            <div class="address-label">SHIPPED FROM</div>
+                            <div class="address-content" id="p-shipped-from"></div>
+                        </div>
+                        <div class="address-box">
+                            <div class="address-label">SHIPPED TO</div>
+                            <div class="address-content" id="p-shipped-to"></div>
+                        </div>
+                    </div>
+
+                    <!-- Goods Table -->
+                    <table class="goods-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 5%">Sr.</th>
+                                <th style="width: 40%">Description of Goods</th>
+                                <th style="width: 15%">HSN/SAC</th>
+                                <th style="width: 10%">Width</th>
+                                <th style="width: 10%">Height</th>
+                                <th style="width: 10%">Qty</th>
+                                <th style="width: 10%">Unit</th>
+                            </tr>
+                        </thead>
+                        <tbody id="p-items-body">
+                            <!-- Dynamic rows -->
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="5" style="text-align: right; font-weight: bold;">Total Quantity:</td>
+                                <td id="p-total-qty" style="font-weight: bold;">0</td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                    <!-- Footer Section -->
+                    <div class="challan-footer">
+                        <div class="terms-section">
+                            <div class="footer-label">Terms and Conditions:</div>
+                            <ol class="permanent-terms">
+                                <li>The recipient is requested to thoroughly inspect the material quantity, dimensions, and physical condition at the time of delivery. Any discrepancy or visible damage must be reported immediately upon receipt.</li>
+                                <li>Goods once delivered and accepted by the customer shall not be eligible for return, replacement, or exchange unless otherwise approved by management in writing.</li>
+                                <li>This Delivery Challan is issued solely for delivery and acknowledgment purposes and does not serve as a Tax Invoice under applicable GST regulations.</li>
+                                <li>The company shall not be held responsible for any breakage, damage, or loss occurring after successful delivery and customer acknowledgment.</li>
+                                <li>Material unloading arrangements at the delivery site shall be the responsibility of the customer unless specifically agreed otherwise.</li>
+                                <li>All goods supplied are subject to standard manufacturing and dimensional tolerances as applicable within industry standards.</li>
+                                <li>Delivery schedules are tentative and may be affected by transportation delays, weather conditions, or other unforeseen operational circumstances.</li>
+                                <li>Any additional taxes, duties, freight, handling, or statutory charges, if applicable, shall be borne by the customer as per prevailing regulations.</li>
+                                <li>This document shall be considered valid only when signed by an authorized representative and accompanied by the official company seal/stamp.</li>
+                                <li>All disputes arising in connection with this delivery shall be subject to the jurisdiction of the courts located at the company’s registered office location only.</li>
+                            </ol>
+                        </div>
+                        <div class="signature-section">
+                            <div class="sig-placeholder">
+                                <img id="p-sig-img" src="Sir_signature.png" style="display: block;">
+                            </div>
+                            <div class="sig-line"></div>
+                            <div class="sig-label">Authorised Signatory</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script src="img_data.js"></script>
+    <script src="challan.js"></script>
+</body>
+</html>

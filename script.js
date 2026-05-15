@@ -30,6 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Image Upload Elements
     const sigInput = document.getElementById('f-sig-img');
     const stampInput = document.getElementById('f-stamp-img');
+    const btnRemoveSig = document.getElementById('btn-remove-sig');
+    const btnRemoveStamp = document.getElementById('btn-remove-stamp');
     const sigImg = document.getElementById('c-sig-img');
     const stampImg = document.getElementById('c-stamp-img');
     const sigPlaceholder = document.getElementById('c-sig-placeholder');
@@ -60,10 +62,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Image Upload Handlers
-    sigInput.addEventListener('change', (e) => handleImageUpload(e, sigImg, sigPlaceholder, 'draft_sig'));
-    stampInput.addEventListener('change', (e) => handleImageUpload(e, stampImg, stampPlaceholder, 'draft_stamp'));
+    function clearImage(imgElement, placeholderElement, inputElement, removeBtn, storageKey) {
+        imgElement.src = '';
+        imgElement.style.display = 'none';
+        placeholderElement.style.display = 'block';
+        if (inputElement) inputElement.value = '';
+        if (removeBtn) removeBtn.style.display = 'none';
+        localStorage.removeItem(storageKey);
+    }
 
-    function handleImageUpload(event, imgElement, placeholderElement, storageKey) {
+    function handleImageUpload(event, imgElement, placeholderElement, storageKey, removeBtn) {
         const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();
@@ -71,14 +79,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 imgElement.src = e.target.result;
                 imgElement.style.display = 'block';
                 placeholderElement.style.display = 'none';
-                localStorage.setItem(storageKey, e.target.result);
+                if (removeBtn) removeBtn.style.display = 'block';
+                // Intentionally not saving to localStorage so it resets on next load
             };
             reader.readAsDataURL(file);
         } else {
-            imgElement.style.display = 'none';
-            placeholderElement.style.display = 'block';
-            localStorage.removeItem(storageKey);
+            clearImage(imgElement, placeholderElement, event.target, removeBtn, storageKey);
         }
+    }
+
+    sigInput.addEventListener('change', (e) => handleImageUpload(e, sigImg, sigPlaceholder, 'draft_sig', btnRemoveSig));
+    stampInput.addEventListener('change', (e) => handleImageUpload(e, stampImg, stampPlaceholder, 'draft_stamp', btnRemoveStamp));
+
+    if (btnRemoveSig) {
+        btnRemoveSig.addEventListener('click', () => {
+            clearImage(sigImg, sigPlaceholder, sigInput, btnRemoveSig, 'draft_sig');
+        });
+    }
+
+    if (btnRemoveStamp) {
+        btnRemoveStamp.addEventListener('click', () => {
+            clearImage(stampImg, stampPlaceholder, stampInput, btnRemoveStamp, 'draft_stamp');
+        });
     }
 
     // Zoom Functionality
@@ -135,10 +157,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
             // Reset images
-            sigImg.style.display = 'none';
-            stampImg.style.display = 'none';
-            sigPlaceholder.style.display = 'block';
-            stampPlaceholder.style.display = 'block';
+            clearImage(sigImg, sigPlaceholder, sigInput, btnRemoveSig, 'draft_sig');
+            clearImage(stampImg, stampPlaceholder, stampInput, btnRemoveStamp, 'draft_stamp');
             
             // Re-set date
             document.getElementById('f-date-place').value = dateStr;
@@ -263,19 +283,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         
-        // Load draft images
-        const savedSig = localStorage.getItem('draft_sig');
-        if (savedSig) {
-            sigImg.src = savedSig;
-            sigImg.style.display = 'block';
-            sigPlaceholder.style.display = 'none';
-        }
-        
-        const savedStamp = localStorage.getItem('draft_stamp');
-        if (savedStamp) {
-            stampImg.src = savedStamp;
-            stampImg.style.display = 'block';
-            stampPlaceholder.style.display = 'none';
-        }
+        // Clear any old draft images to ensure a fresh start
+        localStorage.removeItem('draft_sig');
+        localStorage.removeItem('draft_stamp');
     }
 });

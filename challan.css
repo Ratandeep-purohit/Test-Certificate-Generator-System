@@ -345,7 +345,7 @@
     flex-direction: column;
     justify-content: center;
     padding: 16px 0;
-    border-right: 1px solid rgba(255,255,255,0.12);
+    border-right: 1px solid rgba(255, 255, 255, 0.12);
     padding-right: 24px;
 }
 
@@ -394,21 +394,21 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    padding: 16px 0 16px 24px;
+    padding: 8px 0 8px 24px;
 }
 
 .cap-logo-box {
-    background: #ffffff;
-    border-radius: 6px;
-    padding: 2px 8px;
+    background: transparent;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .cap-logo-box img {
-    height: 70px;
+    height: 100px;
     object-fit: contain;
+    transform: scale(1.7);
+    transform-origin: center;
 }
 
 .cap-badge {
@@ -417,8 +417,8 @@
     color: #2563eb;
     letter-spacing: 1.5px;
     text-transform: uppercase;
-    background: rgba(37,99,235,0.1);
-    border: 1px solid rgba(37,99,235,0.3);
+    background: rgba(37, 99, 235, 0.1);
+    border: 1px solid rgba(37, 99, 235, 0.3);
     border-radius: 20px;
     padding: 3px 10px;
 }
@@ -505,8 +505,15 @@
 }
 
 /* Push row-2 cards so East+Central fill from the left cleanly */
-.cap-region:nth-child(4) { grid-column: 1; grid-row: 2; }
-.cap-region:nth-child(5) { grid-column: 2; grid-row: 2; }
+.cap-region:nth-child(4) {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.cap-region:nth-child(5) {
+    grid-column: 2;
+    grid-row: 2;
+}
 
 .cap-region {
     background: #ffffff;
@@ -607,7 +614,8 @@
 }
 
 .cap-prod-card--svc .cap-prod-hd {
-    background: #1e40af;      /* Slightly different blue for services */
+    background: #1e40af;
+    /* Slightly different blue for services */
 }
 
 .cap-prod-list {
@@ -685,5 +693,3 @@
         margin: 0;
     }
 }
-
-

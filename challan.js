@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.header-logo-col img').src = LOGO_B64;
     document.querySelector('.header-logo2-col img').src = LOGO2_B64;
     document.getElementById('p-sig-img').src = SIG_B64;
+    const mktLogo = document.getElementById('preview-logo-mkt');
+    if (mktLogo) mktLogo.src = LOGO_B64;
 
     const form = document.getElementById('challan-form');
     const itemsContainer = document.getElementById('items-container');
@@ -144,11 +146,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // PDF Download — images are already base64 data URLs, so html2canvas has zero CORS issues
     btnDownload.addEventListener('click', async () => {
-        const element = document.getElementById('challan-preview');
+        const element = document.getElementById('pdf-content');
         const challanNo = document.getElementById('f-challan-no').value || 'Draft';
 
         btnDownload.disabled = true;
         btnDownload.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Generating...';
+
+        const challanPage = document.querySelector('.challan-page');
+        const capSheet = document.querySelector('.cap-sheet');
+        const pdfSpacer = document.getElementById('pdf-spacer');
+        
+        // Cache original styles
+        const origMinHeight = challanPage ? challanPage.style.minHeight : '';
+        const origBoxShadow = challanPage ? challanPage.style.boxShadow : '';
+        const origPaddingBottom = challanPage ? challanPage.style.paddingBottom : '';
+        const origSpacerDisplay = pdfSpacer ? pdfSpacer.style.display : '';
+        
+        // Strip physical constraints BEFORE html2pdf calculates pagination
+        if (challanPage) {
+            challanPage.style.minHeight = 'auto';
+            challanPage.style.boxShadow = 'none';
+            challanPage.style.paddingBottom = '0';
+        }
+        if (capSheet) {
+            capSheet.style.marginTop = '0';
+        }
+        if (pdfSpacer) {
+            pdfSpacer.style.display = 'none';
+        }
 
         try {
             await html2pdf().set({
@@ -157,13 +182,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 image:       { type: 'jpeg', quality: 0.98 },
                 html2canvas: { scale: 2, useCORS: false, allowTaint: true, logging: false },
                 jsPDF:       { unit: 'mm', format: 'a4', orientation: 'portrait' },
-                pagebreak:   { mode: ['avoid-all', 'css', 'legacy'] }
+                pagebreak:   { mode: ['css', 'legacy'], before: '.cap-sheet' }
             }).from(element).save();
 
         } catch (err) {
             console.error('PDF error:', err);
             alert('PDF generation failed: ' + err.message);
         } finally {
+            // Restore original styles
+            if (challanPage) {
+                challanPage.style.minHeight = origMinHeight;
+                challanPage.style.boxShadow = origBoxShadow;
+                challanPage.style.paddingBottom = origPaddingBottom;
+            }
+            if (capSheet) {
+                capSheet.style.marginTop = '';
+            }
+            if (pdfSpacer) {
+                pdfSpacer.style.display = origSpacerDisplay;
+            }
+            
             btnDownload.disabled = false;
             btnDownload.innerHTML = '<i class="fa-solid fa-download"></i> PDF';
         }

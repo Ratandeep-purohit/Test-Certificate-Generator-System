@@ -104,7 +104,8 @@
             </div>
             
             <div class="challan-wrapper">
-                <div id="challan-preview" class="challan-page">
+                <div id="pdf-content">
+                    <div id="challan-preview" class="challan-page">
                     <!-- Header: Logo Left | Company Center | Logo2 Right -->
                     <div class="challan-header">
                         <div class="header-top-row">
@@ -203,6 +204,151 @@
                             </div>
                             <div class="sig-line"></div>
                             <div class="sig-label">Authorised Signatory</div>
+                        </div>
+                    </div>
+                    </div> <!-- End of challan-page -->
+                    
+                    <!-- BACK PAGE: PREMIUM CORPORATE CAPABILITY SHEET -->
+                    <div id="pdf-spacer" style="height: 20px; background: transparent;" data-html2canvas-ignore="true"></div>
+                    <div id="marketing-page" class="cap-sheet">
+
+                        <!-- ── ZONE A: HEADER (15%) ── -->
+                        <div class="cap-header">
+                            <div class="cap-hdr-left">
+                                <div class="cap-hdr-eyebrow">RIBGYOV GLASSO &nbsp;|&nbsp; COMPANY PROFILE</div>
+                                <h1 class="cap-hdr-title">PAN INDIA SUPPLY &amp;<br>PRODUCT PORTFOLIO</h1>
+                                <p class="cap-hdr-sub">Architectural Glass &nbsp;<span class="cap-dot">&bull;</span>&nbsp; Designer Mirrors &nbsp;<span class="cap-dot">&bull;</span>&nbsp; Premium Project Solutions</p>
+                                <p class="cap-hdr-desc">Delivering high-quality glass and mirror solutions across India for commercial, retail, hospitality, residential, and architectural projects.</p>
+                            </div>
+                            <div class="cap-hdr-right">
+                                <div class="cap-logo-box">
+                                    <img src="logo.png" id="preview-logo-mkt" alt="Ribgyov Glasso">
+                                </div>
+                                <div class="cap-badge">&#10003;&nbsp; Trusted Across India</div>
+                            </div>
+                        </div>
+
+                        <!-- ── ZONE B: PAN INDIA NETWORK (40%) ── -->
+                        <div class="cap-network">
+                            <div class="cap-wm">&#9960;</div>
+                            <div class="cap-zone-header">
+                                <h2 class="cap-zone-title">PAN INDIA NETWORK</h2>
+                                <span class="cap-zone-sub">Serving clients across major states and cities throughout India</span>
+                            </div>
+                            <div class="cap-regions">
+                                <div class="cap-region">
+                                    <div class="cap-region-hd"><span class="cap-region-icon">N</span>NORTH INDIA</div>
+                                    <div class="cap-region-body">
+                                        <p><strong>Delhi NCR:</strong> Delhi, Gurugram, Noida, Ghaziabad, Faridabad</p>
+                                        <p><strong>Punjab:</strong> Ludhiana, Amritsar, Jalandhar, Mohali</p>
+                                        <p><strong>Haryana:</strong> Panipat, Sonipat, Karnal, Rohtak</p>
+                                        <p><strong>Uttar Pradesh:</strong> Lucknow, Kanpur, Agra, Varanasi, Prayagraj</p>
+                                    </div>
+                                </div>
+                                <div class="cap-region">
+                                    <div class="cap-region-hd"><span class="cap-region-icon">W</span>WEST INDIA</div>
+                                    <div class="cap-region-body">
+                                        <p><strong>Gujarat:</strong> Ahmedabad, Surat, Vadodara, Rajkot, Gandhinagar, Bhavnagar</p>
+                                        <p><strong>Maharashtra:</strong> Mumbai, Pune, Thane, Navi Mumbai, Nagpur, Nashik</p>
+                                        <p><strong>Rajasthan:</strong> Jaipur, Udaipur, Jodhpur, Kota, Bikaner, Ajmer</p>
+                                    </div>
+                                </div>
+                                <div class="cap-region">
+                                    <div class="cap-region-hd"><span class="cap-region-icon">S</span>SOUTH INDIA</div>
+                                    <div class="cap-region-body">
+                                        <p><strong>Karnataka:</strong> Bengaluru, Mysuru, Mangalore, Hubballi</p>
+                                        <p><strong>Tamil Nadu:</strong> Chennai, Coimbatore, Madurai, Salem</p>
+                                        <p><strong>Telangana:</strong> Hyderabad, Secunderabad, Warangal</p>
+                                        <p><strong>Kerala:</strong> Kochi, Trivandrum, Kozhikode, Thrissur</p>
+                                    </div>
+                                </div>
+                                <div class="cap-region cap-region--sm">
+                                    <div class="cap-region-hd"><span class="cap-region-icon">E</span>EAST INDIA</div>
+                                    <div class="cap-region-body">
+                                        <p><strong>West Bengal:</strong> Kolkata, Howrah, Siliguri</p>
+                                        <p><strong>Odisha:</strong> Bhubaneswar, Cuttack, Rourkela</p>
+                                        <p><strong>Bihar:</strong> Patna, Gaya, Muzaffarpur</p>
+                                    </div>
+                                </div>
+                                <div class="cap-region cap-region--sm">
+                                    <div class="cap-region-hd"><span class="cap-region-icon">C</span>CENTRAL INDIA</div>
+                                    <div class="cap-region-body">
+                                        <p><strong>Madhya Pradesh:</strong> Indore, Bhopal, Gwalior, Jabalpur</p>
+                                        <p><strong>Chhattisgarh:</strong> Raipur, Bilaspur, Durg</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ── ZONE C: PRODUCT PORTFOLIO (45%) ── -->
+                        <div class="cap-portfolio">
+                            <div class="cap-zone-header">
+                                <h2 class="cap-zone-title">OUR PRODUCT PORTFOLIO</h2>
+                                <span class="cap-zone-sub">Comprehensive architectural glass and mirror solutions for modern spaces</span>
+                            </div>
+                            <div class="cap-products">
+                                <div class="cap-prod-card">
+                                    <div class="cap-prod-hd">
+                                        <i class="fa-solid fa-clone"></i>
+                                        <span>MIRROR SOLUTIONS</span>
+                                    </div>
+                                    <ul class="cap-prod-list">
+                                        <li>Clear Mirror</li>
+                                        <li>Antique Mirror</li>
+                                        <li>Decorative Mirror</li>
+                                        <li>LED Mirror</li>
+                                        <li>Backlit Mirror</li>
+                                        <li>Toughened Mirror</li>
+                                        <li>Designer Mirror</li>
+                                        <li>Gym Mirror</li>
+                                        <li>Bathroom Mirror</li>
+                                        <li>Safety Mirror</li>
+                                        <li>Wardrobe Mirror</li>
+                                        <li>Customized Mirrors</li>
+                                    </ul>
+                                </div>
+                                <div class="cap-prod-card">
+                                    <div class="cap-prod-hd">
+                                        <i class="fa-solid fa-layer-group"></i>
+                                        <span>GLASS SOLUTIONS</span>
+                                    </div>
+                                    <ul class="cap-prod-list">
+                                        <li>Toughened Glass</li>
+                                        <li>Laminated Glass</li>
+                                        <li>Frosted Glass</li>
+                                        <li>Reflective Glass</li>
+                                        <li>Lacquered Glass</li>
+                                        <li>Facade Glass</li>
+                                        <li>Shower Glass</li>
+                                        <li>Railing Glass</li>
+                                        <li>Decorative Glass</li>
+                                        <li>Shop Front Glass</li>
+                                        <li>Door Glass</li>
+                                        <li>Acoustic Glass</li>
+                                    </ul>
+                                </div>
+                                <div class="cap-prod-card cap-prod-card--svc">
+                                    <div class="cap-prod-hd">
+                                        <i class="fa-solid fa-screwdriver-wrench"></i>
+                                        <span>VALUE ADDED SERVICES</span>
+                                    </div>
+                                    <ul class="cap-prod-list">
+                                        <li>Custom Size Cutting</li>
+                                        <li>Edge Polishing</li>
+                                        <li>Hole &amp; Cut-out Processing</li>
+                                        <li>Site Measurement Support</li>
+                                        <li>Bulk Project Supply</li>
+                                        <li>Pan India Dispatch</li>
+                                        <li>Project Consultation</li>
+                                        <li>Packing &amp; Logistics Support</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="cap-footer">
+                                <span>Ribgyov Glasso &mdash; Excellence in Architectural Glass &amp; Mirror Solutions</span>
+                                <span class="cap-footer-sep">|</span>
+                                <span>Pan India Supply Network</span>
+                            </div>
                         </div>
                     </div>
                 </div>

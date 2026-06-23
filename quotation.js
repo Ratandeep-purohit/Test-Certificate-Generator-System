@@ -1,4 +1,4 @@
-﻿document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('quotation-form');
     const itemsContainer = document.getElementById('items-container');
     const btnAddItem = document.getElementById('btn-add-item');
@@ -15,15 +15,7 @@
     document.getElementById('f-due-date').value = today;
 
     const defaultItems = [
-        { description: '12mm Toughened Glass\n(HSN/SAC: 7009)', width: 50, height: 11, area: 550, qty: 1, gst: 18, uom: 'SQF', rate: 165 },
-        { description: '12mm Toughened Glass\n(HSN/SAC: 7009)', width: 5, height: 7, area: 35, qty: 1, gst: 18, uom: 'SQF', rate: 165 },
-        { description: '12mm Toughened Glass\n(HSN/SAC: 7009)', width: 2, height: 2, area: 4, qty: 1, gst: 18, uom: 'SQF', rate: 165 },
-        { description: 'Labour Fitting Charges', width: 1, height: 1, area: 59, qty: 10, gst: 18, uom: 'SQF', rate: 45 },
-        { description: 'ALUMINIUM GLAZING PROFILE', width: 1, height: 1, area: 14, qty: 8, gst: 18, uom: 'RFT', rate: 150 },
-        { description: 'Fabrication Charges for Holes & Cutouts', width: 1, height: 1, area: 1, qty: 19, gst: 18, uom: 'NOS', rate: 90 },
-        { description: 'Fabrication Charges for Big Cutout', width: 1, height: 1, area: 1, qty: 1, gst: 18, uom: 'NOS', rate: 750 },
-        { description: 'Floor Spring Set with Handle Lock and Overpanel Patch\nENOX 3100 120KG Double Cylindered with Other Brand Patch Fittings', width: 1, height: 1, area: 1, qty: 1, gst: 18, uom: 'SET', rate: 12700 },
-        { description: 'Floor Spring Set with Handle Lock and Overpanel Patch\nENOX 3080 90KG Single Cylindered with Other Brand Patch Fittings', width: 1, height: 1, area: 1, qty: 1, gst: 18, uom: 'SET', rate: 7200 }
+        { description: '', width: 1, height: 1, area: 1, qty: 1, gst: 18, uom: 'SQF', rate: 0 }
     ];
 
     let items = defaultItems.map((item, index) => ({ id: Date.now() + index, ...item }));

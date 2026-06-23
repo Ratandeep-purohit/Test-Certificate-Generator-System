@@ -19,6 +19,11 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: Date.now(), description: 'Toughened Glass 12mm Clear', hsn: '7007', width: '1200', height: '2400', qty: 5, unit: 'PCS' }
     ];
 
+    // Expose internals for the admin viewer loader
+    window._challanItems = items;
+    window._renderItemForms = () => renderItemForms();
+    window._updatePreview = () => updatePreview();
+
     // Initial render
     renderItemForms();
     updatePreview();
@@ -232,29 +237,34 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const viewId = urlParams.get('view_id');
-    if (viewId && typeof supabaseClient !== 'undefined') {
-        try {
-            const { data, error } = await supabaseClient.from('certificates').select('*').eq('id', viewId).single();
-            if (error) throw error;
-            if (data && data.details) {
-                const d = data.details;
-                if(d.challan_no) document.getElementById('f-challan-no').value = d.challan_no;
-                if(d.date) document.getElementById('f-date').value = d.date;
-                if(d.project) document.getElementById('f-project').value = d.project;
-                if(d.vehicle) document.getElementById('f-vehicle').value = d.vehicle;
-                if(d.delivered_by) document.getElementById('f-delivered-by').value = d.delivered_by;
-                if(d.delivered_to) document.getElementById('f-delivered-to').value = d.delivered_to;
-                if(d.shipped_from) document.getElementById('f-shipped-from').value = d.shipped_from;
-                if(d.shipped_to) document.getElementById('f-shipped-to').value = d.shipped_to;
-                if(d.items) {
-                    items.length = 0;
-                    d.items.forEach(i => items.push(i));
-                    if (typeof renderItems === 'function') renderItems();
-                }
-                if (typeof updatePreview === 'function') updatePreview();
+    if (!viewId || typeof supabaseClient === 'undefined') return;
+    try {
+        const { data, error } = await supabaseClient.from('certificates').select('*').eq('id', viewId).single();
+        if (error) throw error;
+        if (!data || !data.details) return;
+        const d = data.details;
+        const setAndFire = (id, value) => {
+            const el = document.getElementById(id);
+            if (el && value !== undefined && value !== null) {
+                el.value = value;
+                el.dispatchEvent(new Event('input', { bubbles: true }));
             }
-        } catch (err) {
-            console.error('Error loading preview:', err);
+        };
+        setAndFire('f-challan-no', d.challan_no);
+        setAndFire('f-date', d.date);
+        setAndFire('f-project', d.project);
+        setAndFire('f-vehicle', d.vehicle);
+        setAndFire('f-delivered-by', d.delivered_by);
+        setAndFire('f-delivered-to', d.delivered_to);
+        setAndFire('f-shipped-from', d.shipped_from);
+        setAndFire('f-shipped-to', d.shipped_to);
+        if (d.items && window._challanItems && window._renderItemForms && window._updatePreview) {
+            window._challanItems.length = 0;
+            d.items.forEach(i => window._challanItems.push(i));
+            window._renderItemForms();
+            window._updatePreview();
         }
+    } catch (err) {
+        console.error('Error loading preview:', err);
     }
 });

@@ -317,29 +317,33 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const viewId = urlParams.get('view_id');
-    if (viewId && typeof supabaseClient !== 'undefined') {
-        try {
-            const { data, error } = await supabaseClient.from('certificates').select('*').eq('id', viewId).single();
-            if (error) throw error;
-            if (data && data.details) {
-                const d = data.details;
-                if(d.cert_no) document.getElementById('f-cert-no').value = d.cert_no;
-                if(d.customer) document.getElementById('f-customer').value = d.customer;
-                if(d.invoice) document.getElementById('f-invoice').value = d.invoice;
-                if(d.product) document.getElementById('f-product').value = d.product;
-                if(d.size_s1) document.getElementById('f-size-s1').value = d.size_s1;
-                if(d.size_s2) document.getElementById('f-size-s2').value = d.size_s2;
-                if(d.size_s3) document.getElementById('f-size-s3').value = d.size_s3;
-                if(d.thick_s1) document.getElementById('f-thick-s1').value = d.thick_s1;
-                if(d.thick_s2) document.getElementById('f-thick-s2').value = d.thick_s2;
-                if(d.thick_s3) document.getElementById('f-thick-s3').value = d.thick_s3;
-                if(d.conclusion) document.getElementById('f-conclusion').value = d.conclusion;
-                if(d.inspected_by) document.getElementById('f-inspected-by').value = d.inspected_by;
-                if(d.date_place) document.getElementById('f-date-place').value = d.date_place;
-                if (typeof updatePreview === 'function') updatePreview();
+    if (!viewId || typeof supabaseClient === 'undefined') return;
+    try {
+        const { data, error } = await supabaseClient.from('certificates').select('*').eq('id', viewId).single();
+        if (error) throw error;
+        if (!data || !data.details) return;
+        const d = data.details;
+        const setAndFire = (id, value) => {
+            const el = document.getElementById(id);
+            if (el && value !== undefined && value !== null) {
+                el.value = value;
+                el.dispatchEvent(new Event('input', { bubbles: true }));
             }
-        } catch (err) {
-            console.error('Error loading preview:', err);
-        }
+        };
+        setAndFire('f-cert-no', d.cert_no);
+        setAndFire('f-customer', d.customer);
+        setAndFire('f-invoice', d.invoice);
+        setAndFire('f-product', d.product);
+        setAndFire('f-size-s1', d.size_s1);
+        setAndFire('f-size-s2', d.size_s2);
+        setAndFire('f-size-s3', d.size_s3);
+        setAndFire('f-thick-s1', d.thick_s1);
+        setAndFire('f-thick-s2', d.thick_s2);
+        setAndFire('f-thick-s3', d.thick_s3);
+        setAndFire('f-conclusion', d.conclusion);
+        setAndFire('f-inspected-by', d.inspected_by);
+        setAndFire('f-date-place', d.date_place);
+    } catch (err) {
+        console.error('Error loading preview:', err);
     }
 });

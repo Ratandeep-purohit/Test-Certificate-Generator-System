@@ -20,6 +20,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let items = defaultItems.map((item, index) => ({ id: Date.now() + index, ...item }));
 
+    // Expose internals for admin viewer loader
+    window._quotationItems = items;
+    window._renderItemForms = () => renderItemForms();
+    window._updatePreview = () => updatePreview();
+
     const terms = [
         'All orders, confirmations, sales contracts, services, price offers, and quotations are subject to these general terms unless accepted otherwise in writing by the seller.',
         'No modification, derogation, or addition by the buyer to these terms shall be contractually valid without prior written acceptance from the seller.',
@@ -360,33 +365,38 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const viewId = urlParams.get('view_id');
-    if (viewId && typeof supabaseClient !== 'undefined') {
-        try {
-            const { data, error } = await supabaseClient.from('certificates').select('*').eq('id', viewId).single();
-            if (error) throw error;
-            if (data && data.details) {
-                const d = data.details;
-                if(d.quote_no) document.getElementById('f-quote-no').value = d.quote_no;
-                if(d.quote_date) document.getElementById('f-quote-date').value = d.quote_date;
-                if(d.due_date) document.getElementById('f-due-date').value = d.due_date;
-                if(d.timeline) document.getElementById('f-timeline').value = d.timeline;
-                if(d.project) document.getElementById('f-project').value = d.project;
-                if(d.source) document.getElementById('f-source').value = d.source;
-                if(d.note) document.getElementById('f-note').value = d.note;
-                if(d.from) document.getElementById('f-from').value = d.from;
-                if(d.to) document.getElementById('f-to').value = d.to;
-                if(d.freight) document.getElementById('f-freight').value = d.freight;
-                if(d.freight_gst) document.getElementById('f-freight-gst').value = d.freight_gst;
-                if(d.bank) document.getElementById('f-bank').value = d.bank;
-                if(d.items) {
-                    items.length = 0;
-                    d.items.forEach(i => items.push(i));
-                    if (typeof renderItems === 'function') renderItems();
-                }
-                if (typeof updatePreview === 'function') updatePreview();
+    if (!viewId || typeof supabaseClient === 'undefined') return;
+    try {
+        const { data, error } = await supabaseClient.from('certificates').select('*').eq('id', viewId).single();
+        if (error) throw error;
+        if (!data || !data.details) return;
+        const d = data.details;
+        const setAndFire = (id, value) => {
+            const el = document.getElementById(id);
+            if (el && value !== undefined && value !== null) {
+                el.value = value;
+                el.dispatchEvent(new Event('input', { bubbles: true }));
             }
-        } catch (err) {
-            console.error('Error loading preview:', err);
+        };
+        setAndFire('f-quote-no', d.quote_no);
+        setAndFire('f-quote-date', d.quote_date);
+        setAndFire('f-due-date', d.due_date);
+        setAndFire('f-timeline', d.timeline);
+        setAndFire('f-project', d.project);
+        setAndFire('f-source', d.source);
+        setAndFire('f-note', d.note);
+        setAndFire('f-from', d.from);
+        setAndFire('f-to', d.to);
+        setAndFire('f-freight', d.freight);
+        setAndFire('f-freight-gst', d.freight_gst);
+        setAndFire('f-bank', d.bank);
+        if (d.items && window._quotationItems && window._renderItemForms && window._updatePreview) {
+            window._quotationItems.length = 0;
+            d.items.forEach(i => window._quotationItems.push(i));
+            window._renderItemForms();
+            window._updatePreview();
         }
+    } catch (err) {
+        console.error('Error loading preview:', err);
     }
 });

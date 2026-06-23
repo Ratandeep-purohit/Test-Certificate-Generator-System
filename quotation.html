@@ -1,0 +1,227 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quotation Generator | Glassentials</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="quotation.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar no-print">
+            <div class="sidebar-header">
+                <div class="header-top">
+                    <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Dashboard</a>
+                </div>
+                <div class="sidebar-header-row">
+                    <h2><i class="fa-solid fa-file-invoice-dollar"></i> Quotation</h2>
+                    <div class="actions">
+                        <button id="btn-reset" class="btn btn-outline" title="Reset Form"><i class="fa-solid fa-rotate-right"></i></button>
+                        <button id="btn-download" class="btn btn-primary" title="Download PDF"><i class="fa-solid fa-download"></i> PDF</button>
+                    </div>
+                </div>
+            </div>
+
+            <form id="quotation-form" class="form-container">
+                <div class="form-section">
+                    <h3>Quotation Info</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="f-quote-no">Quotation No</label>
+                            <input type="text" id="f-quote-no" value="RGAH262702216">
+                        </div>
+                        <div class="form-group">
+                            <label for="f-quote-date">Quotation Date</label>
+                            <input type="date" id="f-quote-date">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="f-due-date">Due Date</label>
+                            <input type="date" id="f-due-date">
+                        </div>
+                        <div class="form-group">
+                            <label for="f-timeline">Timeline</label>
+                            <input type="text" id="f-timeline" value="4-5 working Days">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="f-project">Project</label>
+                        <input type="text" id="f-project" value="@Sindhu Bhavan Ahmedabad">
+                    </div>
+                    <div class="form-group">
+                        <label for="f-source">Source</label>
+                        <input type="text" id="f-source" value="Referral by Ankur bhai">
+                    </div>
+                    <div class="form-group">
+                        <label for="f-note">Document Note</label>
+                        <input type="text" id="f-note" value="UNDEFINED SIZES AND QUANTITY: ALL">
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Parties</h3>
+                    <div class="form-group">
+                        <label for="f-from">Quotation From</label>
+                        <textarea id="f-from" rows="5">Ribgyov Glasso
+Gujarat, India
+GSTIN: 24ALFPM5976M2ZG
+PAN: ALFPM5976M
+Email: quote@glassentials.com
+Phone: +91 98242 98202</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="f-to">Quotation For</label>
+                        <textarea id="f-to" rows="4">Vans Innovation
+Mumbai,
+India</textarea>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <div class="section-header">
+                        <h3>Items</h3>
+                        <button type="button" id="btn-add-item" class="btn btn-sm btn-outline"><i class="fa-solid fa-plus"></i> Add Item</button>
+                    </div>
+                    <div id="items-container" class="items-editor"></div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Charges</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="f-freight">Freight and Unloading</label>
+                            <input type="number" id="f-freight" min="0" step="0.01" value="3500">
+                        </div>
+                        <div class="form-group">
+                            <label for="f-freight-gst">Freight GST %</label>
+                            <input type="number" id="f-freight-gst" min="0" step="0.01" value="18">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Bank Details</h3>
+                    <div class="form-group">
+                        <label for="f-bank">Bank Details</label>
+                        <textarea id="f-bank" rows="6">Account Name: Ribgyov Glasso
+Account Number: 3615194269
+IFSC: CBIN0280553
+Account Type: Current
+Bank: Central Bank of India
+UPI: 8238939979@okbizaxis</textarea>
+                    </div>
+                </div>
+            </form>
+        </aside>
+
+        <main class="preview-area">
+            <div class="preview-toolbar no-print">
+                <div class="zoom-controls">
+                    <button id="btn-zoom-out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+                    <span id="zoom-level">100%</span>
+                    <button id="btn-zoom-in"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+                </div>
+            </div>
+
+            <div class="quotation-wrapper">
+                <div id="pdf-content">
+                    <section id="quotation-preview" class="quotation-page">
+                        <header class="quote-header">
+                            <div class="quote-logo-wrap"><img id="preview-logo" src="logo.png" alt="Ribgyov Glasso"></div>
+                            <div class="quote-company">
+                                <div class="quote-title">Proforma Invoice</div>
+                                <div class="quote-company-name">Ribgyov Glasso</div>
+                                <div class="quote-company-sub">Manufacturers &amp; Suppliers of Architectural Glass</div>
+                            </div>
+                            <div class="quote-logo-wrap quote-logo-right"><img id="preview-logo2" src="logo2.png" alt="Glassentials"></div>
+                        </header>
+
+                        <div class="quote-meta-grid">
+                            <div><span>Quotation No</span><strong id="p-quote-no"></strong></div>
+                            <div><span>Quotation Date</span><strong id="p-quote-date"></strong></div>
+                            <div><span>Due Date</span><strong id="p-due-date"></strong></div>
+                            <div><span>Project</span><strong id="p-project"></strong></div>
+                            <div><span>Source</span><strong id="p-source"></strong></div>
+                            <div><span>Timeline</span><strong id="p-timeline"></strong></div>
+                        </div>
+
+                        <div class="quote-note" id="p-note"></div>
+
+                        <div class="party-grid">
+                            <div class="party-box">
+                                <div class="party-label">Quotation From</div>
+                                <div id="p-from" class="party-text"></div>
+                            </div>
+                            <div class="party-box">
+                                <div class="party-label">Quotation For</div>
+                                <div id="p-to" class="party-text"></div>
+                            </div>
+                        </div>
+
+                        <table class="quote-items-table">
+                            <thead>
+                                <tr>
+                                    <th class="sr-col">#</th>
+                                    <th>Description of Goods</th>
+                                    <th>Width</th>
+                                    <th>Height</th>
+                                    <th>Chargeable Area</th>
+                                    <th>Qty</th>
+                                    <th>GST</th>
+                                    <th>Charged Unit</th>
+                                    <th>UOM</th>
+                                    <th>Rate</th>
+                                    <th>Amount</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="p-items-body"></tbody>
+                        </table>
+
+                        <div class="quote-bottom-grid">
+                            <div class="words-bank-block">
+                                <div class="amount-words"><span>Total (in words):</span><p id="p-amount-words"></p></div>
+                                <div class="bank-card">
+                                    <h4>Bank Details</h4>
+                                    <div id="p-bank"></div>
+                                </div>
+                            </div>
+                            <div class="totals-card">
+                                <div class="totals-row"><span>Freight and Unloading</span><strong id="p-freight"></strong></div>
+                                <div class="totals-row"><span>GST on Freight</span><strong id="p-freight-tax"></strong></div>
+                                <div class="totals-row"><span>Amount</span><strong id="p-subtotal"></strong></div>
+                                <div class="totals-row"><span>CGST</span><strong id="p-cgst"></strong></div>
+                                <div class="totals-row"><span>SGST</span><strong id="p-sgst"></strong></div>
+                                <div class="totals-row grand"><span>Total (INR)</span><strong id="p-grand-total"></strong></div>
+                                <div class="upi-box">
+                                    <span>Scan to pay via UPI</span>
+                                    <small>Maximum of 1 lakh can be transferred via UPI in a single day</small>
+                                    <strong id="p-upi"></strong>
+                                </div>
+                                <div class="signature-area">
+                                    <img id="p-sig-img" src="Sir_signature.png" alt="Signature">
+                                    <div class="sig-line"></div>
+                                    <div class="sig-label">Authorised Signatory</div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="terms-page">
+                        <h2>Terms and Conditions - Annexure - 1</h2>
+                        <ol class="terms-list" id="terms-list"></ol>
+                    </section>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="img_data.js"></script>
+    <script src="quotation.js"></script>
+</body>
+</html>

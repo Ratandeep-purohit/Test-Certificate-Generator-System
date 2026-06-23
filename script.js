@@ -248,6 +248,31 @@ document.addEventListener('DOMContentLoaded', () => {
             imgContainers.forEach((c, i) => c.style.border = originalBorders[i]);
             btnDownload.innerHTML = originalText;
             btnDownload.disabled = false;
+            
+            if (typeof saveDocumentToDB === 'function') {
+                saveDocumentToDB({
+                    document_type: 'Test Certificate',
+                    document_no: document.getElementById('f-cert-no').value,
+                    customer_name: document.getElementById('f-customer').value,
+                    employee_name: document.getElementById('f-inspected-by').value,
+                    document_date: document.getElementById('f-date-place').value,
+                    details: {
+                        cert_no: document.getElementById('f-cert-no').value,
+                        customer: document.getElementById('f-customer').value,
+                        invoice: document.getElementById('f-invoice').value,
+                        product: document.getElementById('f-product').value,
+                        size_s1: document.getElementById('f-size-s1').value,
+                        size_s2: document.getElementById('f-size-s2').value,
+                        size_s3: document.getElementById('f-size-s3').value,
+                        thick_s1: document.getElementById('f-thick-s1').value,
+                        thick_s2: document.getElementById('f-thick-s2').value,
+                        thick_s3: document.getElementById('f-thick-s3').value,
+                        conclusion: document.getElementById('f-conclusion').value,
+                        inspected_by: document.getElementById('f-inspected-by').value,
+                        date_place: document.getElementById('f-date-place').value
+                    }
+                });
+            }
         });
     });
 

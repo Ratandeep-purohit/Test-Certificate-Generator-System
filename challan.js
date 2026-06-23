@@ -185,6 +185,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 pagebreak:   { mode: ['css', 'legacy'], before: '.cap-sheet' }
             }).from(element).save();
 
+            if (typeof saveDocumentToDB === 'function') {
+                saveDocumentToDB({
+                    document_type: 'Delivery Challan',
+                    document_no: document.getElementById('f-challan-no').value,
+                    customer_name: document.getElementById('f-delivered-to').value,
+                    employee_name: document.getElementById('f-delivered-by').value,
+                    document_date: document.getElementById('f-date').value,
+                    details: {
+                        challan_no: document.getElementById('f-challan-no').value,
+                        date: document.getElementById('f-date').value,
+                        project: document.getElementById('f-project').value,
+                        vehicle: document.getElementById('f-vehicle').value,
+                        delivered_by: document.getElementById('f-delivered-by').value,
+                        delivered_to: document.getElementById('f-delivered-to').value,
+                        shipped_from: document.getElementById('f-shipped-from').value,
+                        shipped_to: document.getElementById('f-shipped-to').value,
+                        items: items
+                    }
+                });
+            }
+
         } catch (err) {
             console.error('PDF error:', err);
             alert('PDF generation failed: ' + err.message);

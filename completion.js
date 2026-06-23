@@ -152,6 +152,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 })
                 .save();
 
+            if (typeof saveDocumentToDB === 'function') {
+                saveDocumentToDB({
+                    document_type: 'Work Completion',
+                    document_no: projName,
+                    customer_name: fClientName.value,
+                    employee_name: fAuthPerson.value,
+                    document_date: fDate.value,
+                    details: {
+                        date: fDate.value,
+                        project_name: fProjectName.value,
+                        site_address: fSiteAddress.value,
+                        project_details: fProjectDetails.value,
+                        client_name: fClientName.value,
+                        mobile_no: fMobileNo.value,
+                        auth_person: fAuthPerson.value
+                    }
+                });
+            }
+
         } catch (err) {
             console.error('PDF error:', err);
             alert('PDF generation failed: ' + err.message);

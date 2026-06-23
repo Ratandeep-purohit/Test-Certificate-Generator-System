@@ -318,6 +318,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
                 pagebreak: { mode: ['css', 'legacy'], before: '.terms-page' }
             }).from(element).save();
+            if (typeof saveDocumentToDB === 'function') {
+                saveDocumentToDB({
+                    document_type: 'Quotation',
+                    document_no: document.getElementById('f-quote-no').value,
+                    customer_name: document.getElementById('f-to').value,
+                    employee_name: document.getElementById('f-source').value || 'System',
+                    document_date: document.getElementById('f-quote-date').value,
+                    details: {
+                        quote_no: document.getElementById('f-quote-no').value,
+                        quote_date: document.getElementById('f-quote-date').value,
+                        due_date: document.getElementById('f-due-date').value,
+                        timeline: document.getElementById('f-timeline').value,
+                        project: document.getElementById('f-project').value,
+                        source: document.getElementById('f-source').value,
+                        note: document.getElementById('f-note').value,
+                        from: document.getElementById('f-from').value,
+                        to: document.getElementById('f-to').value,
+                        freight: document.getElementById('f-freight').value,
+                        freight_gst: document.getElementById('f-freight-gst').value,
+                        bank: document.getElementById('f-bank').value,
+                        items: items,
+                        grand_total: document.getElementById('p-grand-total').textContent
+                    }
+                });
+            }
         } catch (err) {
             console.error('PDF error:', err);
             alert(`PDF generation failed: ${err.message}`);

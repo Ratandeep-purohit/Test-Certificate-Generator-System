@@ -180,3 +180,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+document.addEventListener('DOMContentLoaded', async () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const viewId = urlParams.get('view_id');
+    if (viewId && typeof supabaseClient !== 'undefined') {
+        try {
+            const { data, error } = await supabaseClient.from('certificates').select('*').eq('id', viewId).single();
+            if (error) throw error;
+            if (data && data.details) {
+                const d = data.details;
+                if(d.date) document.getElementById('f-date').value = d.date;
+                if(d.project_name) document.getElementById('f-project-name').value = d.project_name;
+                if(d.site_address) document.getElementById('f-site-address').value = d.site_address;
+                if(d.project_details) document.getElementById('f-project-details').value = d.project_details;
+                if(d.client_name) document.getElementById('f-client-name').value = d.client_name;
+                if(d.mobile_no) document.getElementById('f-mobile-no').value = d.mobile_no;
+                if(d.auth_person) document.getElementById('f-auth-person').value = d.auth_person;
+                if (typeof updatePreview === 'function') updatePreview();
+            }
+        } catch (err) {
+            console.error('Error loading preview:', err);
+        }
+    }
+});

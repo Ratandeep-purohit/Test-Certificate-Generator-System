@@ -356,3 +356,37 @@ document.addEventListener('DOMContentLoaded', () => {
     renderTerms();
     updatePreview();
 });
+
+document.addEventListener('DOMContentLoaded', async () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const viewId = urlParams.get('view_id');
+    if (viewId && typeof supabaseClient !== 'undefined') {
+        try {
+            const { data, error } = await supabaseClient.from('certificates').select('*').eq('id', viewId).single();
+            if (error) throw error;
+            if (data && data.details) {
+                const d = data.details;
+                if(d.quote_no) document.getElementById('f-quote-no').value = d.quote_no;
+                if(d.quote_date) document.getElementById('f-quote-date').value = d.quote_date;
+                if(d.due_date) document.getElementById('f-due-date').value = d.due_date;
+                if(d.timeline) document.getElementById('f-timeline').value = d.timeline;
+                if(d.project) document.getElementById('f-project').value = d.project;
+                if(d.source) document.getElementById('f-source').value = d.source;
+                if(d.note) document.getElementById('f-note').value = d.note;
+                if(d.from) document.getElementById('f-from').value = d.from;
+                if(d.to) document.getElementById('f-to').value = d.to;
+                if(d.freight) document.getElementById('f-freight').value = d.freight;
+                if(d.freight_gst) document.getElementById('f-freight-gst').value = d.freight_gst;
+                if(d.bank) document.getElementById('f-bank').value = d.bank;
+                if(d.items) {
+                    items.length = 0;
+                    d.items.forEach(i => items.push(i));
+                    if (typeof renderItems === 'function') renderItems();
+                }
+                if (typeof updatePreview === 'function') updatePreview();
+            }
+        } catch (err) {
+            console.error('Error loading preview:', err);
+        }
+    }
+});

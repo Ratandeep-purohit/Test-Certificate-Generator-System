@@ -4,9 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const filterType = document.getElementById('filter-type');
     const btnRefresh = document.getElementById('btn-refresh');
     const sortDate = document.getElementById('sort-date');
-    const modal = document.getElementById('json-modal');
-    const btnCloseModal = document.getElementById('close-modal');
-    const jsonDisplay = document.getElementById('json-display');
 
     let records = [];
     let sortAscending = false; // Default to newest first
@@ -87,29 +84,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>${r.employee_name || '-'}</td>
                 <td>${r.document_date || '-'}</td>
                 <td class="action-btns">
-                    <button class="btn-view" data-id="${r.id}"><i class="fa-solid fa-eye"></i> View Details</button>
+                    <a href="${getLinkForDocument(r)}" class="btn-view" target="_blank" style="text-decoration:none; display:inline-block;"><i class="fa-solid fa-eye"></i> View & Download</a>
                 </td>
             `;
             recordsBody.appendChild(row);
         });
-
-        // Attach event listeners to buttons
-        document.querySelectorAll('.btn-view').forEach(btn => {
-            btn.addEventListener('click', (e) => viewDetails(e.currentTarget.dataset.id));
-        });
     }
 
-    function viewDetails(id) {
-        const record = records.find(r => r.id === id);
-        if (record) {
-            jsonDisplay.textContent = JSON.stringify(record.details || {}, null, 2);
-            modal.style.display = 'flex';
-        }
+    function getLinkForDocument(r) {
+        if (r.document_type === 'Test Certificate') return `certificate.html?view_id=${r.id}`;
+        if (r.document_type === 'Delivery Challan') return `challan.html?view_id=${r.id}`;
+        if (r.document_type === 'Quotation') return `quotation.html?view_id=${r.id}`;
+        if (r.document_type === 'Work Completion') return `completion.html?view_id=${r.id}`;
+        return '#';
     }
-
-    // Modal close
-    btnCloseModal.addEventListener('click', () => modal.style.display = 'none');
-    modal.addEventListener('click', (e) => { if(e.target === modal) modal.style.display = 'none'; });
 
     // Event Listeners
     searchInput.addEventListener('input', renderTable);

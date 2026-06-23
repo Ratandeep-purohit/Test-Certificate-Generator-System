@@ -228,3 +228,33 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+document.addEventListener('DOMContentLoaded', async () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const viewId = urlParams.get('view_id');
+    if (viewId && typeof supabaseClient !== 'undefined') {
+        try {
+            const { data, error } = await supabaseClient.from('certificates').select('*').eq('id', viewId).single();
+            if (error) throw error;
+            if (data && data.details) {
+                const d = data.details;
+                if(d.challan_no) document.getElementById('f-challan-no').value = d.challan_no;
+                if(d.date) document.getElementById('f-date').value = d.date;
+                if(d.project) document.getElementById('f-project').value = d.project;
+                if(d.vehicle) document.getElementById('f-vehicle').value = d.vehicle;
+                if(d.delivered_by) document.getElementById('f-delivered-by').value = d.delivered_by;
+                if(d.delivered_to) document.getElementById('f-delivered-to').value = d.delivered_to;
+                if(d.shipped_from) document.getElementById('f-shipped-from').value = d.shipped_from;
+                if(d.shipped_to) document.getElementById('f-shipped-to').value = d.shipped_to;
+                if(d.items) {
+                    items.length = 0;
+                    d.items.forEach(i => items.push(i));
+                    if (typeof renderItems === 'function') renderItems();
+                }
+                if (typeof updatePreview === 'function') updatePreview();
+            }
+        } catch (err) {
+            console.error('Error loading preview:', err);
+        }
+    }
+});

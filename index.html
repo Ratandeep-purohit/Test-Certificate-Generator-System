@@ -5,128 +5,84 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Glassentials | Document Systems</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary: #0f172a;
-            --secondary: #64748b;
-            --bg: #f8fafc;
-            --border: #e2e8f0;
-        }
         body {
             margin: 0;
             padding: 0;
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg);
-            color: var(--primary);
+            background-color: #f8fafc;
+            color: #0f172a;
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
+            height: 100vh;
+            overflow: hidden;
         }
         .container {
-            width: 100%;
-            max-width: 800px;
-            padding: 2rem;
             text-align: center;
+            padding: 2rem;
+            max-width: 600px;
         }
-        header {
-            margin-bottom: 3rem;
-        }
-        h1 {
-            font-size: 2.5rem;
+        .logo {
+            font-size: 2rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
+            color: #0f172a;
             letter-spacing: -0.02em;
         }
-        p {
-            color: var(--secondary);
-            font-size: 1.1rem;
+        .subtitle {
+            color: #64748b;
+            font-size: 1rem;
+            margin-bottom: 2rem;
         }
-        .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .menu-item {
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 2.5rem 1.5rem;
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.2s ease;
+        .button-grid {
             display: flex;
             flex-direction: column;
+            gap: 0.75rem;
             align-items: center;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
-
-        .menu-item:hover {
-            border-color: #3b82f6;
-            transform: translateY(-4px);
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        .btn {
+            background-color: #3b82f6;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            width: 100%;
+            max-width: 250px;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(59,130,246,0.25);
         }
-
-        .icon {
-            font-size: 2.5rem;
-            color: #3b82f6;
-            margin-bottom: 1rem;
+        .btn:hover {
+            background-color: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(59,130,246,0.3);
         }
-
-        .menu-item h2 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
+        .btn.admin {
+            background-color: #10b981;
+            box-shadow: 0 2px 4px rgba(16,185,129,0.25);
+            margin-top: 1rem;
         }
-
-        .menu-item p {
-            font-size: 0.95rem;
-            line-height: 1.5;
+        .btn.admin:hover {
+            background-color: #059669;
+            box-shadow: 0 6px 12px rgba(16,185,129,0.3);
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>Document Hub</h1>
-            <p>Select a generator to get started</p>
-        </header>
-
-        <div class="menu-grid">
-            <a href="certificate.html" class="menu-item">
-                <div class="icon"><i class="fa-solid fa-certificate"></i></div>
-                <h2>Test Certificate</h2>
-                <p>Generate quality reports for toughened glass samples.</p>
-            </a>
-
-            <a href="challan.html" class="menu-item">
-                <div class="icon"><i class="fa-solid fa-truck-ramp-box"></i></div>
-                <h2>Delivery Challan</h2>
-                <p>Create professional shipping and logistics documents.</p>
-            </a>
-
-            <a href="completion.html" class="menu-item">
-                <div class="icon"><i class="fa-solid fa-file-signature"></i></div>
-                <h2>Work Completion</h2>
-                <p>Generate professional Work Completion &amp; Handover forms.</p>
-            </a>
-
-            <a href="quotation.html" class="menu-item">
-                <div class="icon"><i class="fa-solid fa-file-invoice-dollar"></i></div>
-                <h2>Quotation</h2>
-                <p>Create proforma invoices with item totals, GST, bank details, and terms.</p>
-            </a>
-
-            <a href="admin.html" class="menu-item" style="border-color: #10b981;">
-                <div class="icon" style="color: #10b981;"><i class="fa-solid fa-database"></i></div>
-                <h2>Admin Panel</h2>
-                <p>View, search, and filter all generated documents stored in the database.</p>
-            </a>
-
+        <div class="logo">Document Hub</div>
+        <div class="subtitle">Select a module to get started</div>
+        
+        <div class="button-grid">
+            <a href="certificate.html" class="btn">Test Certificate</a>
+            <a href="en356.html" class="btn" style="background-color:#b45309; box-shadow:0 2px 4px rgba(180,83,9,0.25);">EN 356 P6B Certificate</a>
+            <a href="challan.html" class="btn">Delivery Challan</a>
+            <a href="completion.html" class="btn">Work Completion</a>
+            <a href="quotation.html" class="btn">Quotation</a>
+            <a href="admin.html" class="btn admin">Admin Panel</a>
         </div>
     </div>
 </body>
 </html>
-

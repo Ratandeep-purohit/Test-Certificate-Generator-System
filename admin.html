@@ -23,6 +23,7 @@
             --challan: #f59e0b;
             --quote: #10b981;
             --comp: #a855f7;
+            --en356: #b45309;
         }
 
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
@@ -92,10 +93,11 @@
         .sidebar-link i { width: 18px; text-align: center; font-size: 0.9rem; }
 
         /* Filter nav links use colored accents */
-        .sidebar-link[data-filter="Test Certificate"].active    { background: rgba(59,130,246,0.08); color: var(--cert); }
-        .sidebar-link[data-filter="Delivery Challan"].active   { background: rgba(245,158,11,0.08); color: var(--challan); }
-        .sidebar-link[data-filter="Quotation"].active          { background: rgba(16,185,129,0.08); color: var(--quote); }
-        .sidebar-link[data-filter="Work Completion"].active    { background: rgba(168,85,247,0.08); color: var(--comp); }
+        .sidebar-link[data-filter="Test Certificate"].active       { background: rgba(59,130,246,0.08); color: var(--cert); }
+        .sidebar-link[data-filter="Delivery Challan"].active      { background: rgba(245,158,11,0.08); color: var(--challan); }
+        .sidebar-link[data-filter="Quotation"].active             { background: rgba(16,185,129,0.08); color: var(--quote); }
+        .sidebar-link[data-filter="Work Completion"].active       { background: rgba(168,85,247,0.08); color: var(--comp); }
+        .sidebar-link[data-filter="EN 356 P6B Certificate"].active { background: rgba(180,83,9,0.08);  color: var(--en356); }
 
         /* ---- MAIN ---- */
         .main { flex: 1; padding: 2rem; overflow-x: hidden; }
@@ -131,7 +133,7 @@
         /* ---- CARDS ---- */
         .cards {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(6, 1fr);
             gap: 1rem;
             margin-bottom: 2rem;
         }
@@ -157,6 +159,7 @@
         .card.challan::after { background: var(--challan); }
         .card.quote::after  { background: var(--quote); }
         .card.comp::after   { background: var(--comp); }
+        .card.en356::after  { background: var(--en356); }
 
         .card-label { font-size: 0.78rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.6rem; }
         .card-value { font-size: 2rem; font-weight: 700; line-height: 1; }
@@ -165,6 +168,7 @@
         .card.challan .card-value { color: var(--challan); }
         .card.quote   .card-value { color: var(--quote); }
         .card.comp    .card-value { color: var(--comp); }
+        .card.en356   .card-value { color: var(--en356); }
         .card-icon { position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); font-size: 2.5rem; opacity: 0.06; }
 
         /* ---- TOOLBAR ---- */
@@ -254,10 +258,11 @@
             font-size: 0.78rem;
             font-weight: 600;
         }
-        .badge-Test-Certificate  { background: rgba(59,130,246,0.1);  color: #1d4ed8; }
-        .badge-Delivery-Challan  { background: rgba(245,158,11,0.1);  color: #b45309; }
-        .badge-Quotation         { background: rgba(16,185,129,0.1);  color: #047857; }
-        .badge-Work-Completion   { background: rgba(168,85,247,0.1);  color: #7e22ce; }
+        .badge-Test-Certificate      { background: rgba(59,130,246,0.1);  color: #1d4ed8; }
+        .badge-Delivery-Challan      { background: rgba(245,158,11,0.1);  color: #b45309; }
+        .badge-Quotation             { background: rgba(16,185,129,0.1);  color: #047857; }
+        .badge-Work-Completion       { background: rgba(168,85,247,0.1);  color: #7e22ce; }
+        .badge-EN-356-P6B-Certificate { background: rgba(180,83,9,0.1);   color: #92400e; }
 
         .btn-view {
             display: inline-flex;
@@ -280,7 +285,7 @@
         .empty-state i { font-size: 2.5rem; margin-bottom: 1rem; display: block; opacity: 0.4; }
         .empty-state p { font-size: 0.95rem; }
 
-        @media (max-width: 1100px) { .cards { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 1300px) { .cards { grid-template-columns: repeat(3, 1fr); } }
         @media (max-width: 768px)  { .sidebar { display: none; } .cards { grid-template-columns: repeat(2, 1fr); } }
     </style>
 </head>
@@ -314,6 +319,9 @@
         </button>
         <button class="sidebar-link" data-filter="Work Completion">
             <i class="fa-solid fa-clipboard-check" style="color:var(--comp)"></i> Work Completion
+        </button>
+        <button class="sidebar-link" data-filter="EN 356 P6B Certificate">
+            <i class="fa-solid fa-shield-halved" style="color:var(--en356)"></i> EN 356 P6B
         </button>
     </nav>
 
@@ -355,6 +363,11 @@
                 <div class="card-label">Work Completions</div>
                 <div class="card-value" id="count-comp">—</div>
                 <i class="fa-solid fa-clipboard-check card-icon"></i>
+            </div>
+            <div class="card en356" data-filter="EN 356 P6B Certificate">
+                <div class="card-label">EN 356 P6B</div>
+                <div class="card-value" id="count-en356">—</div>
+                <i class="fa-solid fa-shield-halved card-icon"></i>
             </div>
         </div>
 

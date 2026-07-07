@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EN 356 P6B Certificate of Conformity | Glassentials</title>
+    <meta name="description" content="Generate EN 356 P6B Certificate of Conformity for security glass products.">
+    <link rel="stylesheet" href="style.css">
+    <!-- Premium Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- html2pdf.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <!-- QR Code library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        /* ---- EN 356 specific overrides ---- */
+        .en356-header-band {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            border-bottom: 2.5px solid #0f172a;
+            padding-bottom: 8px;
+            margin-bottom: 8px;
+        }
+        .en356-logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+        .en356-logo-img {
+            height: 64px;
+            width: auto;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+        .en356-company-block {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .en356-company-name {
+            font-family: 'Cinzel', serif;
+            font-size: 12pt;
+            font-weight: 700;
+            color: #0f172a;
+            letter-spacing: 1px;
+            line-height: 1.2;
+            white-space: nowrap;
+        }
+        .en356-company-sub {
+            font-family: 'Inter', sans-serif;
+            font-size: 7pt;
+            color: #475569;
+            margin-top: 2px;
+            max-width: 380px;
+        }
+        .en356-cert-meta-block {
+            text-align: right;
+            font-family: 'Inter', sans-serif;
+            flex-shrink: 0;
+        }
+        .en356-cert-meta-block .meta-row {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+        .en356-cert-meta-block .meta-key {
+            font-size: 7.5pt;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+        .en356-cert-meta-block .meta-val {
+            font-size: 8.5pt;
+            font-weight: 700;
+            color: #0f172a;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 3px;
+            padding: 3px 10px;
+            min-width: 135px;
+            min-height: 22px;
+            display: inline-block;
+            box-sizing: border-box;
+            text-align: center;
+            white-space: nowrap;
+        }
+        /* Title band */
+        .en356-title-band {
+            background: #0f172a;
+            color: #fff;
+            text-align: center;
+            padding: 9px 140px 9px 12px;
+            margin-bottom: 8px;
+            position: relative;
+        }
+        .en356-title-band h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 13pt;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin: 0;
+        }
+        .en356-title-band p {
+            font-family: 'Inter', sans-serif;
+            font-size: 8pt;
+            color: #94a3b8;
+            letter-spacing: 1px;
+            margin: 3px 0 0;
+        }
+        /* Standard badge */
+        .en356-std-badge {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #f59e0b;
+            color: #0f172a;
+            font-family: 'Cinzel', serif;
+            font-size: 9pt;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 4px;
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+        /* Two-column info layout */
+        .en356-info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            border: 1.5px solid #0f172a;
+            margin-bottom: 8px;
+        }
+        .en356-info-panel {
+            padding: 8px 12px;
+        }
+        .en356-info-panel:first-child {
+            border-right: 1px solid #0f172a;
+        }
+        .en356-info-panel-title {
+            font-family: 'Inter', sans-serif;
+            font-size: 7pt;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #64748b;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 4px;
+            margin-bottom: 6px;
+        }
+        .en356-info-row {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 4px;
+            font-size: 8.5pt;
+        }
+        .en356-info-key {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            color: #475569;
+            width: 44%;
+            flex-shrink: 0;
+            font-size: 8pt;
+        }
+        .en356-info-val {
+            font-family: 'Lora', serif;
+            font-weight: 600;
+            color: #0f172a;
+            text-transform: uppercase;
+        }
+        /* Product table */
+        .en356-prod-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 8px;
+            font-size: 8pt;
+            border: 1.5px solid #0f172a;
+        }
+        .en356-prod-table thead th {
+            background: #1e293b;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 7.5pt;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            padding: 6px 6px;
+            border: 1px solid #334155;
+            text-align: center;
+        }
+        .en356-prod-table td {
+            border: 1px solid #cbd5e1;
+            padding: 6px 7px;
+            font-family: 'Lora', serif;
+            font-weight: 600;
+            color: #0f172a;
+            text-align: center;
+            vertical-align: middle;
+        }
+        .en356-prod-table tbody tr:nth-child(even) td {
+            background: #f8fafc;
+        }
+        /* Test results table */
+        .en356-test-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 8px;
+            font-size: 8pt;
+            border: 1.5px solid #0f172a;
+        }
+        .en356-test-table thead th {
+            background: #0f172a;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 7.5pt;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            padding: 6px 5px;
+            border: 1px solid #334155;
+            text-align: center;
+        }
+        .en356-test-table td {
+            border: 1px solid #cbd5e1;
+            padding: 6px 6px;
+            font-family: 'Inter', sans-serif;
+            color: #0f172a;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 8pt;
+        }
+        .en356-test-table .row-label {
+            font-weight: 700;
+            color: #1e293b;
+            background: #f1f5f9;
+            text-align: left;
+            padding-left: 8px;
+        }
+        .en356-test-table .pass-cell {
+            color: #15803d;
+            font-weight: 700;
+            font-size: 9pt;
+        }
+        /* Compliance statement */
+        .en356-compliance {
+            border-left: 4px solid #0f172a;
+            background: #f8fafc;
+            padding: 18px 14px 12px 14px;
+            margin-top: 14px;
+            margin-bottom: 8px;
+            position: relative;
+        }
+        .en356-compliance-badge {
+            position: absolute;
+            top: -10px;
+            left: 12px;
+            background: #0f172a;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 7pt;
+            font-weight: 700;
+            padding: 3px 10px;
+            letter-spacing: 1px;
+            border-radius: 2px;
+        }
+        .en356-compliance-text {
+            font-family: 'Lora', serif;
+            font-size: 8.5pt;
+            font-weight: 600;
+            text-align: justify;
+            line-height: 1.5;
+            color: #1e293b;
+        }
+        /* Bottom area */
+        .en356-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: auto;
+            padding-top: 6px;
+            border-top: 1px solid #e2e8f0;
+        }
+        .en356-sig-block {
+            width: 190px;
+            text-align: center;
+        }
+        .en356-sig-img-area {
+            height: 70px;
+            width: 100%;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            margin-bottom: 6px;
+        }
+        .en356-sig-img-area img {
+            max-height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+        }
+        .en356-sig-line {
+            border-top: 1px dashed #94a3b8;
+            margin-bottom: 5px;
+        }
+        .en356-sig-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 7.5pt;
+            font-weight: 700;
+            color: #64748b;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .en356-sig-name {
+            font-family: 'Cinzel', serif;
+            font-size: 9.5pt;
+            font-weight: 700;
+            color: #0f172a;
+            margin-top: 3px;
+            min-height: 18px;
+        }
+        .en356-seal-area {
+            width: 110px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+        }
+        .en356-circular-stamp {
+            height: 90px;
+            width: 90px;
+            border-radius: 50%;
+            border: 2px dashed #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 4px;
+        }
+        .en356-stamp-placeholder-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 7pt;
+            font-weight: 700;
+            color: #94a3b8;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+        .en356-circular-stamp img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 50%;
+            object-fit: contain;
+        }
+        /* QR block */
+        .en356-qr-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+        .en356-qr-block #qr-canvas {
+            width: 72px !important;
+            height: 72px !important;
+        }
+        .en356-qr-block #qr-canvas img,
+        .en356-qr-block #qr-canvas canvas {
+            width: 72px !important;
+            height: 72px !important;
+        }
+        .en356-qr-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 6.5pt;
+            color: #94a3b8;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        /* Doc ref */
+        .en356-doc-ref {
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            font-size: 6.5pt;
+            color: #94a3b8;
+            font-weight: 500;
+            padding-top: 4px;
+            letter-spacing: 0.5px;
+        }
+        /* Sig placeholder */
+        .en356-sig-placeholder {
+            color: #cbd5e1;
+            font-size: 8pt;
+            font-family: 'Inter', sans-serif;
+            margin-bottom: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar / Form -->
+        <aside class="sidebar no-print">
+            <div class="sidebar-header">
+                <div class="header-top">
+                    <a href="index.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> Dashboard</a>
+                </div>
+                <div class="sidebar-header-row">
+                    <h2><i class="fa-solid fa-shield-halved"></i> EN 356 P6B</h2>
+                    <div class="actions">
+                        <button id="btn-reset" class="btn btn-outline" title="Reset Form"><i class="fa-solid fa-rotate-right"></i></button>
+                        <button id="btn-download" class="btn btn-primary" title="Download PDF"><i class="fa-solid fa-download"></i> PDF</button>
+                        <button id="btn-print" class="btn btn-secondary" title="Print Certificate"><i class="fa-solid fa-print"></i> Print</button>
+                    </div>
+                </div>
+            </div>
+
+            <form id="cert-form" class="form-container">
+
+                <!-- Document Info -->
+                <div class="form-section">
+                    <h3>Document Info</h3>
+                    <div class="form-group">
+                        <label for="f-cert-no">Certificate No.</label>
+                        <input type="text" id="f-cert-no" placeholder="e.g. EN356-2026-0001" value="EN356-2026-0001">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="f-issue-date">Issue Date</label>
+                            <input type="text" id="f-issue-date" placeholder="DD-MM-YYYY">
+                        </div>
+                        <div class="form-group">
+                            <label for="f-test-report-no">Test Report No.</label>
+                            <input type="text" id="f-test-report-no" placeholder="e.g. TR-2026-056">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="f-batch-lot">Batch / Lot Number</label>
+                        <input type="text" id="f-batch-lot" placeholder="e.g. BL-2026-0123">
+                    </div>
+                </div>
+
+                <!-- Manufacturer Details -->
+                <div class="form-section">
+                    <h3>Manufacturer Details</h3>
+                    <div class="form-group">
+                        <label for="f-mfr-name">Manufacturer Name</label>
+                        <input type="text" id="f-mfr-name" placeholder="e.g. A R Glass Industries" value="A R Glass Industries">
+                    </div>
+                    <div class="form-group">
+                        <label for="f-mfr-address">Manufacturer Address</label>
+                        <textarea id="f-mfr-address" rows="2" placeholder="Full address">Plot No. 12, Industrial Area, Noida, UP - 201301</textarea>
+                    </div>
+                </div>
+
+                <!-- Customer Details -->
+                <div class="form-section">
+                    <h3>Customer Details</h3>
+                    <div class="form-group">
+                        <label for="f-customer">Customer Name</label>
+                        <input type="text" id="f-customer" placeholder="e.g. ABC Constructions Ltd.">
+                    </div>
+                    <div class="form-group">
+                        <label for="f-customer-address">Customer Address</label>
+                        <textarea id="f-customer-address" rows="2" placeholder="Full address"></textarea>
+                    </div>
+                </div>
+
+                <!-- Product Details -->
+                <div class="form-section">
+                    <h3>Product Details</h3>
+
+                    <!-- Dynamic product rows -->
+                    <div id="product-rows-container"></div>
+
+                    <button type="button" id="btn-add-product" class="btn btn-secondary" style="width:100%; margin-top:4px; justify-content:center; gap:8px; border:1.5px dashed #94a3b8; color:#334155;">
+                        <i class="fa-solid fa-plus"></i> Add Product
+                    </button>
+                </div>
+
+                <!-- Test Results -->
+                <div class="form-section">
+                    <h3>Test Results (EN 356)</h3>
+                    <div class="form-group">
+                        <label for="f-class">Classification</label>
+                        <input type="text" id="f-class" value="P6B" placeholder="e.g. P6B">
+                    </div>
+                    <div class="form-group">
+                        <label for="f-drop-height">Drop Height (m)</label>
+                        <input type="text" id="f-drop-height" value="9.00" placeholder="e.g. 9.00">
+                    </div>
+                    <div class="form-group">
+                        <label for="f-drop-count">No. of Drops</label>
+                        <input type="text" id="f-drop-count" value="70" placeholder="e.g. 70">
+                    </div>
+                    <div class="form-group">
+                        <label for="f-result-obs">Test Observation</label>
+                        <input type="text" id="f-result-obs" value="No penetration. Glass cracked but held." placeholder="Observation">
+                    </div>
+                    <div class="form-group">
+                        <label for="f-result">Overall Result</label>
+                        <input type="text" id="f-result" value="PASS" placeholder="PASS / FAIL">
+                    </div>
+                </div>
+
+                <!-- Compliance Statement -->
+                <div class="form-section">
+                    <h3>Compliance Statement</h3>
+                    <div class="form-group">
+                        <label for="f-compliance">Statement Text</label>
+                        <textarea id="f-compliance" rows="4">We hereby certify that the above-mentioned glass product has been tested and found to comply with the requirements of EN 356:1999 classification P6B. The product meets all the burglar resistance test criteria as specified under the standard.</textarea>
+                    </div>
+                </div>
+
+                <!-- Signatories -->
+                <div class="form-section">
+                    <h3>Signatories</h3>
+                    <div class="form-group">
+                        <label for="f-authorized-by">Authorized By</label>
+                        <input type="text" id="f-authorized-by" placeholder="e.g. Sanjay Yadav" value="Sanjay Yadav">
+                    </div>
+                    <div class="form-group">
+                        <label for="f-designation">Designation</label>
+                        <input type="text" id="f-designation" placeholder="e.g. Quality Manager" value="Quality Manager">
+                    </div>
+                    <div class="form-group">
+                        <label for="f-sig-img">Signature Image</label>
+                        <input type="file" id="f-sig-img" accept="image/*">
+                        <button type="button" id="btn-remove-sig" class="btn btn-outline" style="margin-top:8px;display:none;width:100%;font-size:0.9em;padding:6px;"><i class="fa-solid fa-trash"></i> Remove Signature</button>
+                    </div>
+                    <div class="form-group">
+                        <label for="f-stamp-img">Company Seal / Stamp</label>
+                        <input type="file" id="f-stamp-img" accept="image/*">
+                        <button type="button" id="btn-remove-stamp" class="btn btn-outline" style="margin-top:8px;display:none;width:100%;font-size:0.9em;padding:6px;"><i class="fa-solid fa-trash"></i> Remove Stamp</button>
+                    </div>
+                </div>
+
+            </form>
+        </aside>
+
+        <!-- Main Preview Area -->
+        <main class="preview-area">
+            <div class="preview-toolbar no-print">
+                <div class="zoom-controls">
+                    <button id="btn-zoom-out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+                    <span id="zoom-level">100%</span>
+                    <button id="btn-zoom-in"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+                </div>
+            </div>
+
+            <div class="certificate-wrapper">
+                <div id="certificate" class="certificate-page">
+                    <!-- Ornamental Border -->
+                    <div class="cert-border"></div>
+                    <div class="cert-border-inner"></div>
+
+                    <!-- Watermark -->
+                    <div class="watermark">ORIGINAL</div>
+
+                    <div class="cert-content">
+
+                        <!-- Header Band: Logo + Company + Meta -->
+                        <div class="en356-header-band">
+                            <div class="en356-logo-area">
+                                <img src="logo.png" alt="Company Logo" class="en356-logo-img" onerror="this.style.display='none'">
+                                <div class="en356-company-block">
+                                    <div class="en356-company-name">Glassentials</div>
+                                    <div class="en356-company-sub">Glass &amp; Mirror Solution</div>
+                                    <div class="en356-company-sub">Silver Radiance One, 209, Hebatpur Rd, near ICICI Bank,<br>Thaltej, Ahmedabad, Gujarat 380054</div>
+                                    <div class="en356-company-sub">+91 098595 95982</div>
+                                </div>
+                            </div>
+                            <div class="en356-cert-meta-block">
+                                <div class="meta-row">
+                                    <span class="meta-key">Cert No:</span>
+                                    <span class="meta-val" id="c-cert-no">EN356-2026-0001</span>
+                                </div>
+                                <div class="meta-row">
+                                    <span class="meta-key">Issue Date:</span>
+                                    <span class="meta-val" id="c-issue-date">—</span>
+                                </div>
+                                <div class="meta-row">
+                                    <span class="meta-key">Test Report:</span>
+                                    <span class="meta-val" id="c-test-report-no">—</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Title Band -->
+                        <div class="en356-title-band">
+                            <h2>CERTIFICATE OF CONFORMITY</h2>
+                            <p>BURGLAR RESISTANT GLAZING MATERIALS &nbsp;|&nbsp; EUROPEAN STANDARD EN 356:1999</p>
+                            <span class="en356-std-badge">CLASS P6B</span>
+                        </div>
+
+                        <!-- Manufacturer & Customer Info Grid -->
+                        <div class="en356-info-grid">
+                            <div class="en356-info-panel">
+                                <div class="en356-info-panel-title"><i class="fa-solid fa-industry"></i> &nbsp;Manufacturer Details</div>
+                                <div class="en356-info-row">
+                                    <span class="en356-info-key">Name:</span>
+                                    <span class="en356-info-val" id="c-mfr-name">A R Glass Industries</span>
+                                </div>
+                                <div class="en356-info-row">
+                                    <span class="en356-info-key">Address:</span>
+                                    <span class="en356-info-val" id="c-mfr-address">Plot No. 12, Industrial Area, Noida, UP - 201301</span>
+                                </div>
+                                <div class="en356-info-row">
+                                    <span class="en356-info-key">Batch / Lot No.:</span>
+                                    <span class="en356-info-val" id="c-batch-lot">—</span>
+                                </div>
+                            </div>
+                            <div class="en356-info-panel">
+                                <div class="en356-info-panel-title"><i class="fa-solid fa-building-user"></i> &nbsp;Customer Details</div>
+                                <div class="en356-info-row">
+                                    <span class="en356-info-key">Customer:</span>
+                                    <span class="en356-info-val" id="c-customer">—</span>
+                                </div>
+                                <div class="en356-info-row">
+                                    <span class="en356-info-key">Address:</span>
+                                    <span class="en356-info-val" id="c-customer-address">—</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Product Details Table -->
+                        <table class="en356-prod-table">
+                            <thead>
+                                <tr>
+                                    <th style="width:5%;">#</th>
+                                    <th style="width:27%">PRODUCT DESCRIPTION</th>
+                                    <th style="width:21%">GLASS CONSTRUCTION</th>
+                                    <th style="width:13%">THICKNESS (mm)</th>
+                                    <th style="width:18%">DIMENSIONS (mm)</th>
+                                    <th style="width:16%">QUANTITY</th>
+                                </tr>
+                            </thead>
+                            <tbody id="prod-tbody">
+                                <!-- rows injected by JS -->
+                            </tbody>
+                        </table>
+
+                        <!-- Test Results Table -->
+                        <table class="en356-test-table">
+                            <thead>
+                                <tr>
+                                    <th style="width:22%">TEST STANDARD</th>
+                                    <th style="width:16%">CLASSIFICATION</th>
+                                    <th style="width:18%">DROP HEIGHT (m)</th>
+                                    <th style="width:16%">NO. OF DROPS</th>
+                                    <th style="width:16%">RESULT</th>
+                                    <th style="width:12%">STATUS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="row-label">EN 356:1999</td>
+                                    <td style="font-weight:700; color:#b45309; font-size:9.5pt;" id="c-class">P6B</td>
+                                    <td id="c-drop-height">9.00</td>
+                                    <td id="c-drop-count">70</td>
+                                    <td style="text-align:left; padding-left:8px; font-size:7.5pt;" id="c-result-obs">No penetration. Glass cracked but held.</td>
+                                    <td class="pass-cell" id="c-result">PASS</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="6" style="text-align:left; padding:8px 10px; font-size:7.5pt; color:#475569; line-height:1.5;">
+                                        <strong>Test Method:</strong> A steel ball of 4.11 kg is dropped from the specified height onto the specimen. Class P6B requires the glass to withstand 70 drops from 9.0 m without penetration (specimen may crack).
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- Compliance Statement -->
+                        <div class="en356-compliance">
+                            <div class="en356-compliance-badge">COMPLIANCE DECLARATION</div>
+                            <div class="en356-compliance-text" id="c-compliance">We hereby certify that the above-mentioned glass product has been tested and found to comply with the requirements of EN 356:1999 classification P6B. The product meets all the burglar resistance test criteria as specified under the standard.</div>
+                        </div>
+
+                        <!-- Footer: Signature | QR | Seal -->
+                        <div class="en356-footer">
+
+                            <!-- Authorized Signature -->
+                            <div class="en356-sig-block">
+                                <div class="en356-sig-img-area">
+                                    <img id="c-sig-img" src="" alt="Signature" style="display:none;">
+                                    <div id="c-sig-placeholder" class="en356-sig-placeholder"><i class="fa-solid fa-pen-nib"></i> Authorized Signatory</div>
+                                </div>
+                                <div class="en356-sig-line"></div>
+                                <div class="en356-sig-label">AUTHORIZED SIGNATORY</div>
+                                <div class="en356-sig-name" id="c-authorized-by">Sanjay Yadav</div>
+                                <div style="font-family:'Inter',sans-serif;font-size:7.5pt;color:#64748b;margin-top:2px;" id="c-designation">Quality Manager</div>
+                            </div>
+
+                            <!-- QR Code -->
+                            <div class="en356-qr-block">
+                                <div id="qr-canvas"></div>
+                                <div class="en356-qr-label">SCAN TO VERIFY</div>
+                            </div>
+
+                            <!-- Company Seal -->
+                            <div class="en356-seal-area">
+                                <div class="en356-circular-stamp">
+                                    <img id="c-stamp-img" src="" alt="Stamp" style="display:none;">
+                                    <div id="c-stamp-placeholder" class="en356-stamp-placeholder-text">COMPANY<br>SEAL</div>
+                                </div>
+                                <div style="font-family:'Inter',sans-serif;font-size:7pt;color:#94a3b8;margin-top:3px;font-weight:600;letter-spacing:0.5px;">QUALITY ASSURANCE</div>
+                            </div>
+
+                        </div>
+
+                        <!-- Doc Reference -->
+                        <div class="en356-doc-ref">
+                            DOC REF: QA/EN356/COC-001 &nbsp;|&nbsp; REV 01 &nbsp;|&nbsp; EN 356:1999 – Burglar Resistant Glass &nbsp;|&nbsp; Classification: P6B
+                        </div>
+
+                    </div><!-- /cert-content -->
+                </div><!-- /certificate -->
+            </div><!-- /certificate-wrapper -->
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="en356.js"></script>
+</body>
+</html>

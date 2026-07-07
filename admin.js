@@ -41,6 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('count-challan').textContent = records.filter(r => r.document_type === 'Delivery Challan').length;
         document.getElementById('count-quote').textContent   = records.filter(r => r.document_type === 'Quotation').length;
         document.getElementById('count-comp').textContent    = records.filter(r => r.document_type === 'Work Completion').length;
+        document.getElementById('count-en356').textContent   = records.filter(r => r.document_type === 'EN 356 P6B Certificate').length;
     }
 
     // ---- RENDER TABLE ----
@@ -101,10 +102,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function getLinkForDocument(r) {
         const map = {
-            'Test Certificate': 'certificate.html',
-            'Delivery Challan': 'challan.html',
-            'Quotation':        'quotation.html',
-            'Work Completion':  'completion.html'
+            'Test Certificate':       'certificate.html',
+            'Delivery Challan':       'challan.html',
+            'Quotation':              'quotation.html',
+            'Work Completion':        'completion.html',
+            'EN 356 P6B Certificate': 'en356.html'
         };
         return `${map[r.document_type] || 'index.html'}?view_id=${r.id}`;
     }
